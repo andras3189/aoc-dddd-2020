@@ -1,5 +1,5 @@
 package aoc.day4;
-
+// Pretty cool solution
 import static aoc.TheFileReader.readFile;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
