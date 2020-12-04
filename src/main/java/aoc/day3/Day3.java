@@ -17,7 +17,16 @@ public class Day3 {
 
 	public static void main(String[] args) {
 		readInput();
+		puzzle1();
+		puzzle2();
+	}
 
+	private static void puzzle1() {
+		long sol = solve(3, 1);
+		System.out.println(sol);
+	}
+
+	private static void puzzle2() {
 		long sol = solve(1, 1);
 		sol *= solve(3, 1);
 		sol *= solve(5, 1);
