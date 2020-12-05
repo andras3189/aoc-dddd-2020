@@ -1,9 +1,5 @@
 package aoc.day4;
 // Pretty cool solution
-import static aoc.TheFileReader.readFile;
-import static java.lang.Integer.parseInt;
-import static java.lang.Long.parseLong;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,23 +7,31 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Day4 {
+import aoc.TheDayBase;
+
+public class Day4 extends TheDayBase {
 
 	public static void main(String[] args) {
-		List<String> input = readFile("day4/day4");
-		solvePuzzle1(input);
-		solvePuzzle2(input);
+		Day4 day4 = new Day4();
+		day4.puzzle1();
+		day4.puzzle2();
 	}
 
-	private static void solvePuzzle1(List<String> input) {
+	@Override
+	protected String getInputFilename() {
+		return "day4/day4";
+	}
+
+	@Override
+	protected void puzzle1() {
 		List<Map<String, String>> passports = collectPassports(input);
 		long validPassports = passports.stream()
 				.filter(passport -> passport.keySet().size() == 8 || passport.keySet().size() == 7 && !passport.containsKey("cid")).count();
 		System.out.println(validPassports);
-
 	}
 
-	private static void solvePuzzle2(List<String> input) {
+	@Override
+	protected void puzzle2() {
 		List<Map<String, String>> passports = collectPassports(input);
 		long validPassports = passports.stream()
 				.filter(passport -> passport.keySet().size() == 8 || passport.keySet().size() == 7 && !passport.containsKey("cid")) //
@@ -37,15 +41,14 @@ public class Day4 {
 				.filter(passport -> between(passport, "byr", 1920, 2002)) //
 				.filter(passport -> between(passport, "iyr", 2010, 2020)) //
 				.filter(passport -> between(passport, "eyr", 2020, 2030)) //
-				.filter(Day4::validHeight) //
-				.filter(Day4::validHair) //
-				.filter(Day4::validEye) //
-				.filter(Day4::validID).count();//
+				.filter(this::validHeight) //
+				.filter(this::validHair) //
+				.filter(this::validEye) //
+				.filter(this::validID).count();//
 		System.out.println(validPassports);
-
 	}
 
-	private static boolean validID(Map<String, String> passport) {
+	private boolean validID(Map<String, String> passport) {
 		String pid = passport.get("pid");
 		boolean valid = pid.length() == 9 && isLong(pid);
 		if (!valid) {
@@ -54,7 +57,7 @@ public class Day4 {
 		return valid;
 	}
 
-	private static boolean validEye(Map<String, String> passport) {
+	private boolean validEye(Map<String, String> passport) {
 		String regex = "(amb|blu|brn|gry|grn|hzl|oth)";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(passport.get("ecl"));
@@ -65,7 +68,7 @@ public class Day4 {
 		return valid;
 	}
 
-	private static boolean validHair(Map<String, String> passport) {
+	private boolean validHair(Map<String, String> passport) {
 		String regex = "#([0-9a-f]{6})";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(passport.get("hcl"));
@@ -76,7 +79,7 @@ public class Day4 {
 		return valid;
 	}
 
-	private static boolean validHeight(Map<String, String> passport) {
+	private boolean validHeight(Map<String, String> passport) {
 		String regex = "(\\d*)(cm|in)";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(passport.get("hgt"));
@@ -109,32 +112,13 @@ public class Day4 {
 		return false;
 	}
 
-	private static boolean between(Map<String, String> passport, String key, int min, int max) {
+	private boolean between(Map<String, String> passport, String key, int min, int max) {
 		int value = parseInt(passport.get(key));
 		return min <= value && value <= max;
 	}
 
-	private static boolean isInt(String str) {
-		try {
-			parseInt(str);
-			return true;
 
-		} catch (NumberFormatException e) {
-			return false;
-		}
-	}
-
-	private static boolean isLong(String str) {
-		try {
-			parseLong(str);
-			return true;
-
-		} catch (NumberFormatException e) {
-			return false;
-		}
-	}
-
-	private static List<Map<String, String>> collectPassports(List<String> input) {
+	private List<Map<String, String>> collectPassports(List<String> input) {
 		Pattern pattern = Pattern.compile("(\\w{3})(\\:)([\\w#]*)");
 		List<Map<String, String>> passports = new ArrayList<>();
 		Map<String, String> passport = new HashMap<>();
