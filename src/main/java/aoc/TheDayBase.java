@@ -5,9 +5,14 @@ import java.util.List;
 public abstract class TheDayBase {
 
 	protected List<String> input;
+	protected List<List<String>> groupedInput;
 
-	protected TheDayBase() {
-		this.input = readFile(getInputFilename());
+	protected TheDayBase(boolean multiLineInput) {
+		if (multiLineInput) {
+			groupedInput = readFileMultiLine(getInputFilename());
+		} else {
+			input = readFile(getInputFilename());
+		}
 	}
 
 	protected abstract String getInputFilename();
@@ -18,6 +23,10 @@ public abstract class TheDayBase {
 
 	protected List<String> readFile(String fileName) {
 		return TheFileReader.readFile(fileName);
+	}
+
+	protected List<List<String>> readFileMultiLine(String fileName) {
+		return TheFileReader.readFileMultiLineInput(fileName);
 	}
 
 	protected boolean isInt(String str) {

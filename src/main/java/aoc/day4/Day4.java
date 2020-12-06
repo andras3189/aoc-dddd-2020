@@ -11,8 +11,12 @@ import aoc.TheDayBase;
 
 public class Day4 extends TheDayBase {
 
+	public Day4(boolean multiLineInput) {
+		super(multiLineInput);
+	}
+
 	public static void main(String[] args) {
-		Day4 day4 = new Day4();
+		Day4 day4 = new Day4(true);
 		day4.puzzle1();
 		day4.puzzle2();
 	}
@@ -24,15 +28,15 @@ public class Day4 extends TheDayBase {
 
 	@Override
 	protected void puzzle1() {
-		List<Map<String, String>> passports = collectPassports(input);
+		List<Map<String, String>> passports = collectPassports(groupedInput);
 		long validPassports = passports.stream()
 				.filter(passport -> passport.keySet().size() == 8 || passport.keySet().size() == 7 && !passport.containsKey("cid")).count();
-		System.out.println(validPassports);
+		System.out.println(validPassports); // 247
 	}
 
 	@Override
 	protected void puzzle2() {
-		List<Map<String, String>> passports = collectPassports(input);
+		List<Map<String, String>> passports = collectPassports(groupedInput);
 		long validPassports = passports.stream()
 				.filter(passport -> passport.keySet().size() == 8 || passport.keySet().size() == 7 && !passport.containsKey("cid")) //
 				.filter(passport -> isInt(passport.get("byr"))) //
@@ -45,7 +49,7 @@ public class Day4 extends TheDayBase {
 				.filter(this::validHair) //
 				.filter(this::validEye) //
 				.filter(this::validID).count();//
-		System.out.println(validPassports);
+		System.out.println(validPassports); // 145
 	}
 
 	private boolean validID(Map<String, String> passport) {
@@ -117,26 +121,21 @@ public class Day4 extends TheDayBase {
 		return min <= value && value <= max;
 	}
 
-
-	private List<Map<String, String>> collectPassports(List<String> input) {
+	private List<Map<String, String>> collectPassports(List<List<String>> input) {
 		Pattern pattern = Pattern.compile("(\\w{3})(\\:)([\\w#]*)");
 		List<Map<String, String>> passports = new ArrayList<>();
-		Map<String, String> passport = new HashMap<>();
-		for (String in : input) {
-			if ("".equals(in)) {
-				passports.add(passport);
-				passport = new HashMap<>();
-				continue;
+		for (List<String> linesOnePassport : input) {
+			Map<String, String> passport = new HashMap<>();
+			for (String line : linesOnePassport) {
+				Matcher matcher = pattern.matcher(line);
+				while (matcher.find()) {
+					String key = matcher.group(1);
+					String value = matcher.group(3);
+					passport.put(key, value);
+				}
 			}
-			Matcher matcher = pattern.matcher(in);
-			while (matcher.find()) {
-				String key = matcher.group(1);
-				String value = matcher.group(3);
-				passport.put(key, value);
-
-			}
+			passports.add(passport);
 		}
-		passports.add(passport);
 		return passports;
 	}
 

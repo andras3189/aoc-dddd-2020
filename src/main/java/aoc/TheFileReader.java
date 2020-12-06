@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,12 +24,43 @@ public class TheFileReader {
 			Path path = Paths.get(TheFileReader.class.getClassLoader().getResource(resourcePath).toURI());
 
 			Stream<String> lines = Files.lines(path);
-			List<String> list = lines.collect(Collectors.toList());
+			List<String> input = lines.collect(Collectors.toList());
 			lines.close();
-			return list;
+			return input;
 		} catch (URISyntaxException | IOException e) {
 			e.printStackTrace();
 		}
 		return null;
 	 }
+
+	public static List<List<String>> readFileMultiLineInput(String filename) {
+		try {
+			String resourcePath = filename + ".input";
+			Path path = Paths.get(TheFileReader.class.getClassLoader().getResource(resourcePath).toURI());
+
+			Stream<String> lines = Files.lines(path);
+			List<String> input = lines.collect(Collectors.toList());
+
+			List<List<String>> outputs = new ArrayList<>();
+			List<String> oneOutput = new ArrayList<>();
+
+			for (String line : input) {
+				if ("".equals(line.trim()) && !oneOutput.isEmpty()) {
+					outputs.add(oneOutput);
+					oneOutput = new ArrayList<>();
+				} else {
+					oneOutput.add(line);
+				}
+			}
+			if (!oneOutput.isEmpty()) {
+				outputs.add(oneOutput);
+			}
+
+			lines.close();
+			return outputs;
+		} catch (URISyntaxException | IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
