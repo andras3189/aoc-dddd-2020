@@ -17,9 +17,9 @@ public abstract class TheDayBase {
 
 	protected abstract String getInputFilename();
 
-	protected abstract void puzzle1();
-
 	protected abstract void puzzle2();
+
+	protected abstract void puzzle1();
 
 	protected List<String> readFile(String fileName) {
 		return TheFileReader.readFile(fileName);
