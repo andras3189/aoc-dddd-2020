@@ -3,7 +3,6 @@ package aoc.day7;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -23,6 +22,7 @@ public class Day7 extends TheDayBase {
 
 	public static void main(String[] args) {
 		Day7 day = new Day7(false);
+		day.processInput();
 		day.puzzle1(); // 348
 		day.puzzle2(); // 18885
 	}
@@ -34,6 +34,18 @@ public class Day7 extends TheDayBase {
 
 	@Override
 	protected void puzzle1() {
+		Set<Bag> shiny_gold = allBags.stream().filter(bag -> bag.canReach("shiny gold")).collect(Collectors.toSet());
+		System.out.println(shiny_gold.size());
+		// printBags(shiny_gold);
+	}
+
+	@Override
+	protected void puzzle2() {
+		Bag myBag = allBags.stream().filter(bag -> "shiny gold".equals(bag.name)).findFirst().get();
+		System.out.println(myBag.countChildren());
+	}
+
+	private void processInput() {
 		for (String line : input) {
 			String[] split = line.split("bags contain");
 			String name = split[0].trim();
@@ -50,25 +62,11 @@ public class Day7 extends TheDayBase {
 			}
 			allBags.add(bag);
 		}
-		for (Bag bag : allBags) {
-			//System.out.println(bag);
-		}
-
-		Set<Bag> shiny_gold = allBags.stream().filter(bag -> bag.canReach("shiny gold")).collect(Collectors.toSet());
-		System.out.println(shiny_gold.size());
-		for (Bag bag : shiny_gold) {
-			//System.out.println(shiny_gold);
-		}
+		// printBags(allBags);
 	}
 
 	private Optional<Bag> getExistingBagIfPresent(String nameToFind) {
 		return allBags.stream().filter(bag -> bag.name.equals(nameToFind)).findFirst();
-	}
-
-	@Override
-	protected void puzzle2() {
-		Bag myBag = allBags.stream().filter(bag -> "shiny gold".equals(bag.name)).findFirst().get();
-		System.out.println(myBag.countChildren());
 	}
 
 	private int getChildBagNumber(String childString) {
@@ -83,12 +81,18 @@ public class Day7 extends TheDayBase {
 
 	private String getChildBagName(String childString) {
 		String childName = "";
-		Pattern pattern2 = Pattern.compile("[0-9]*([\\w\\s]*)bag[s]{0,1}[.]{0,1}");
+		Pattern pattern2 = Pattern.compile("[0-9]*([\\w\\s]*)bag[s]?[.]?");
 		Matcher matcher2 = pattern2.matcher(childString.trim());
 		if (matcher2.find()) {
 			childName = matcher2.group(1).trim();
 		}
 		return childName.trim();
+	}
+
+	private void printBags(Set<Bag> bags) {
+		for (Bag bag : bags) {
+			System.out.println(bag);
+		}
 	}
 
 	public static class Bag {
@@ -121,24 +125,6 @@ public class Day7 extends TheDayBase {
 				count += children.get(child) * child.countChildren() + children.get(child);
 			}
 			return count;
-		}
-
-
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
-				return true;
-			}
-			if (o == null || getClass() != o.getClass()) {
-				return false;
-			}
-			Bag bag = (Bag) o;
-			return name.equals(bag.name);
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(name);
 		}
 
 		@Override
