@@ -1,8 +1,6 @@
 package aoc.day7;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -10,6 +8,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import aoc.TheDayBase;
+import aoc.common.bag.Bag;
 
 public class Day7 extends TheDayBase {
 
@@ -36,7 +35,7 @@ public class Day7 extends TheDayBase {
 	protected void puzzle1() {
 		Set<Bag> shiny_gold = allBags.stream().filter(bag -> bag.canReach("shiny gold")).collect(Collectors.toSet());
 		System.out.println(shiny_gold.size());
-		// printBags(shiny_gold);
+		// Bag.printBags(shiny_gold);
 	}
 
 	@Override
@@ -45,7 +44,8 @@ public class Day7 extends TheDayBase {
 		System.out.println(myBag.countChildren());
 	}
 
-	private void processInput() {
+	@Override
+	protected void processInput() {
 		for (String line : input) {
 			String[] split = line.split("bags contain");
 			String name = split[0].trim();
@@ -62,7 +62,7 @@ public class Day7 extends TheDayBase {
 			}
 			allBags.add(bag);
 		}
-		// printBags(allBags);
+		// Bag.printBags(allBags);
 	}
 
 	private Optional<Bag> getExistingBagIfPresent(String nameToFind) {
@@ -87,50 +87,5 @@ public class Day7 extends TheDayBase {
 			childName = matcher2.group(1).trim();
 		}
 		return childName.trim();
-	}
-
-	private void printBags(Set<Bag> bags) {
-		for (Bag bag : bags) {
-			System.out.println(bag);
-		}
-	}
-
-	public static class Bag {
-		public String name;
-		public Map<Bag, Integer> children = new HashMap<>();
-
-		public Bag(String name) {
-			this.name = name;
-		}
-
-		public boolean canReach(String targetName) {
-			if (children.isEmpty()) {
-				return false;
-			}
-			boolean canReach = false;
-			for (Bag child : children.keySet()) {
-				if (targetName.equals(child.name)) {
-					return true;
-				} else {
-					canReach |= child.canReach(targetName);
-				}
-
-			}
-			return canReach;
-		}
-
-		public long countChildren() {
-			long count = 0;
-			for (Bag child : children.keySet()) {
-				count += children.get(child) * child.countChildren() + children.get(child);
-			}
-			return count;
-		}
-
-		@Override
-		public String toString() {
-			String childNames = children.keySet().stream().map(child -> child.name).collect(Collectors.joining(", "));
-			return "Bag{" + "name='" + name + '\'' + ", children=" + childNames + '}';
-		}
 	}
 }

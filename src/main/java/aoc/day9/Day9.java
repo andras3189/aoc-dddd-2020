@@ -21,7 +21,8 @@ public class Day9 extends TheDayBase {
 		day.puzzle2();
 	}
 
-	private void processInput() {
+	@Override
+	protected void processInput() {
 
 	}
 

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import aoc.TheDayBase;
+import aoc.common.converter.BinaryConverter;
 
 public class Day5 extends TheDayBase {
 
@@ -28,7 +29,7 @@ public class Day5 extends TheDayBase {
 	@Override
 	protected void puzzle2() {
 		List<Integer> takenSeats = input.stream().map(this::toSeat).collect(Collectors.toList());
-		List<Integer> freeSeats = IntStream.range(0,1024).filter(seat -> mySeat(takenSeats, seat)).boxed().collect(Collectors.toList());
+		List<Integer> freeSeats = IntStream.range(0, 1024).filter(seat -> mySeat(takenSeats, seat)).boxed().collect(Collectors.toList());
 		System.out.println(freeSeats);
 	}
 
@@ -40,7 +41,7 @@ public class Day5 extends TheDayBase {
 
 	private int toSeat(String in) {
 		String binary = in.replaceAll("B", "1").replaceAll("F", "0").replaceAll("R", "1").replaceAll("L", "0");
-		return binaryToDecimal(parseLong(binary));
+		return BinaryConverter.binaryToDecimal(parseLong(binary));
 	}
 
 	@Override
