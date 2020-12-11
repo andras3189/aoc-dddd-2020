@@ -5,37 +5,25 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import aoc.TheDayBase;
+import aoc.DayBase;
 import aoc.common.instruction.Instruction;
 import aoc.common.instruction.InstructionCommand;
 import aoc.common.instruction.InstructionExecutionResult;
 import aoc.common.instruction.InstructionExecutor;
 
-public class Day8 extends TheDayBase {
+public class Day8 extends DayBase {
 
 	public static String REGEX = "(acc|jmp|nop)\\s([+-])([\\d]*)";
 	public List<Instruction> instructions = new ArrayList<>();
 
 
-	public Day8(boolean multiLineInput) {
-		super(multiLineInput);
-		//input = readFile("day8/dummy");
-	}
-
-	@Override
-	protected String getInputFilename() {
-		return "day8/day8";
-	}
-
 	public static void main(String[] args) {
-		Day8 day = new Day8(false);
-		day.processInput();
-		day.puzzle1();
-		day.puzzle2();
+		new Day8().run();
 	}
 
 	@Override
 	protected void processInput() {
+		instructions = new ArrayList<>();
 		for (String line : input) {
 			Pattern pattern = Pattern.compile(REGEX);
 			Matcher matcher = pattern.matcher(line);

@@ -7,28 +7,27 @@ import java.util.LongSummaryStatistics;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import aoc.TheDayBase;
+import aoc.DayBase;
 
-public class Day6 extends TheDayBase {
-
-	public Day6(boolean multiLineInput) {
-		super(multiLineInput);
-	}
+public class Day6 extends DayBase {
 
 	public static void main(String[] args) {
-		Day6 day6 = new Day6(true);
-		day6.puzzle1();
-		day6.puzzle2();
+		new Day6().run();
 	}
 
 	@Override
-	protected String getInputFilename() {
-		return "day6/day6";
+	protected boolean isMultiLineInput() {
+		return true;
+	}
+
+	@Override
+	protected void processInput() {
+
 	}
 
 	@Override
 	protected void puzzle1() {
-		List<Group> groups = collectGroups(groupedInput);
+		List<Group> groups = collectGroups(inputGrouped);
 		LongSummaryStatistics collect = groups.stream().map(map -> map.answers.keySet().size()).collect(Collectors.summarizingLong(el -> el));
 		System.out.println(collect.getSum()); // 6437
 	}
@@ -36,7 +35,7 @@ public class Day6 extends TheDayBase {
 
 	@Override
 	protected void puzzle2() {
-		List<Group> groups = collectGroups(groupedInput);
+		List<Group> groups = collectGroups(inputGrouped);
 		LongSummaryStatistics collect = groups.stream()
 				.map(group -> group.answers.keySet().stream().filter(key -> group.answers.get(key) == group.groupSize).count())
 				.collect(Collectors.summarizingLong(count -> count));

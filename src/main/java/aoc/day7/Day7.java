@@ -7,28 +7,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import aoc.TheDayBase;
+import aoc.DayBase;
 import aoc.common.bag.Bag;
 
-public class Day7 extends TheDayBase {
+public class Day7 extends DayBase {
 
-	private final Set<Bag> allBags = new HashSet<>();
-
-	public Day7(boolean multiLineInput) {
-		super(multiLineInput);
-		//input = readFile("day7/dummy");
-	}
+	private Set<Bag> allBags = new HashSet<>();
 
 	public static void main(String[] args) {
-		Day7 day = new Day7(false);
-		day.processInput();
-		day.puzzle1(); // 348
-		day.puzzle2(); // 18885
-	}
-
-	@Override
-	protected String getInputFilename() {
-		return "day7/day7";
+		new Day7().run();
 	}
 
 	@Override
@@ -46,6 +33,7 @@ public class Day7 extends TheDayBase {
 
 	@Override
 	protected void processInput() {
+		allBags = new HashSet<>();
 		for (String line : input) {
 			String[] split = line.split("bags contain");
 			String name = split[0].trim();

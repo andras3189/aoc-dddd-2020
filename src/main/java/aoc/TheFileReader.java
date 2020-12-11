@@ -3,6 +3,7 @@ package aoc;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,7 +22,12 @@ public class TheFileReader {
 	public static List<String> readFile(String filename) {
 		try {
 			String resourcePath = filename + ".input";
-			Path path = Paths.get(TheFileReader.class.getClassLoader().getResource(resourcePath).toURI());
+			URL resource = TheFileReader.class.getClassLoader().getResource(resourcePath);
+			if (resource == null) {
+				System.out.println("File not found: " + filename);
+				return null;
+			}
+			Path path = Paths.get(resource.toURI());
 
 			Stream<String> lines = Files.lines(path);
 			List<String> input = lines.collect(Collectors.toList());
@@ -36,7 +42,12 @@ public class TheFileReader {
 	public static List<List<String>> readFileMultiLineInput(String filename) {
 		try {
 			String resourcePath = filename + ".input";
-			Path path = Paths.get(TheFileReader.class.getClassLoader().getResource(resourcePath).toURI());
+			URL resource = TheFileReader.class.getClassLoader().getResource(resourcePath);
+			if (resource == null) {
+				System.out.println("File not found: " + filename);
+				return null;
+			}
+			Path path = Paths.get(resource.toURI());
 
 			Stream<String> lines = Files.lines(path);
 			List<String> input = lines.collect(Collectors.toList());

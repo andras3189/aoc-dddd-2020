@@ -5,19 +5,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import aoc.TheDayBase;
+import aoc.DayBase;
 import aoc.common.converter.BinaryConverter;
 
-public class Day5 extends TheDayBase {
-
-	protected Day5(boolean multiLineInput) {
-		super(multiLineInput);
-	}
+public class Day5 extends DayBase {
 
 	public static void main(String[] args) {
-		Day5 day5 = new Day5(false);
-		day5.puzzle1(); // 878
-		day5.puzzle2(); // 504
+		new Day5().run();
+	}
+
+	@Override
+	protected void processInput() {
+
 	}
 
 	@Override
@@ -42,11 +41,6 @@ public class Day5 extends TheDayBase {
 	private int toSeat(String in) {
 		String binary = in.replaceAll("B", "1").replaceAll("F", "0").replaceAll("R", "1").replaceAll("L", "0");
 		return BinaryConverter.binaryToDecimal(parseLong(binary));
-	}
-
-	@Override
-	protected String getInputFilename() {
-		return "day5/day5";
 	}
 
 }

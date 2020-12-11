@@ -4,39 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import aoc.TheDayBase;
+import aoc.DayBase;
 
-public class Day11 extends TheDayBase {
-
-	private List<Long> longInput = new ArrayList<>();
+public class Day11 extends DayBase {
 
 	private List<String> currentSeats = new ArrayList<>();
 	private List<String> updatedSeats = new ArrayList<>();
 	private int maxX;
 	private int maxY;
 
-	public Day11(boolean multiLineInput) {
-		super(multiLineInput);
-//		input = readFile("day11/david");
-//		input = readFile("day11/dummy");
-//		input = readFile("day11/dummy2");
-	}
-
-	@Override
-	protected String getInputFilename() {
-		return "day11/day11";
-	}
-
-	public static void main(String[] args) {
-		Day11 day = new Day11(false);
-		day.processInput();
-		day.puzzle1();
-		day.puzzle2();
+    public static void main(String[] args) {
+		new Day11().run();
 	}
 
 	@Override
 	protected void processInput() {
-//		longInput = input.stream().map(this::parseLong).collect(Collectors.toList());
 		currentSeats = input.stream().map(String::new).collect(Collectors.toList());
 		maxY = input.size();
 		maxX = input.get(0).length();

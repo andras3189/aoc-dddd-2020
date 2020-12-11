@@ -1,47 +1,28 @@
 package aoc.day10;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import aoc.TheDayBase;
+import aoc.DayBase;
 
-public class Day10 extends TheDayBase {
+public class Day10 extends DayBase {
 
-
-	private List<Long> longInput = new ArrayList<>();
 	private Map<Integer, Long> memory = new HashMap<>();
 
-	public Day10(boolean multiLineInput) {
-		super(multiLineInput);
-//		input = readFile("day10/dummy");
-//		input = readFile("day10/dummy2");
-//		input = readFile("day10/david");
-	}
-
-	@Override
-	protected String getInputFilename() {
-		return "day10/day10";
-	}
-
 	public static void main(String[] args) {
-		Day10 day = new Day10(false);
-		day.processInput();
-		day.puzzle1();
-		day.puzzle2();
+		new Day10().run();
 	}
 
 	@Override
 	protected void processInput() {
-		longInput = input.stream().map(this::parseLong).collect(Collectors.toList());
 	}
 
 	@Override
 	protected void puzzle1() {
 		long current = 0;
-		List<Long> sorted = longInput.stream().sorted().collect(Collectors.toList());
+		List<Long> sorted = inputLong.stream().sorted().collect(Collectors.toList());
 
 		int n1 = 0;
 		int n2 = 0;
@@ -59,7 +40,7 @@ public class Day10 extends TheDayBase {
 
 	@Override
 	protected void puzzle2() {
-		List<Long> sorted = longInput.stream().sorted().collect(Collectors.toList());
+		List<Long> sorted = inputLong.stream().sorted().collect(Collectors.toList());
 
 		sorted.add(0, 0L);
 		sorted.add(sorted.size(), sorted.get(sorted.size() - 1) + 3);

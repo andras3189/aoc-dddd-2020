@@ -1,5 +1,6 @@
 package aoc.day4;
 // Pretty cool solution
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,28 +8,27 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import aoc.TheDayBase;
+import aoc.DayBase;
 
-public class Day4 extends TheDayBase {
-
-	public Day4(boolean multiLineInput) {
-		super(multiLineInput);
-	}
+public class Day4 extends DayBase {
 
 	public static void main(String[] args) {
-		Day4 day4 = new Day4(true);
-		day4.puzzle1();
-		day4.puzzle2();
+		new Day4().run();
 	}
 
 	@Override
-	protected String getInputFilename() {
-		return "day4/day4";
+	protected void processInput() {
+
+	}
+
+	@Override
+	protected boolean isMultiLineInput() {
+		return true;
 	}
 
 	@Override
 	protected void puzzle1() {
-		List<Map<String, String>> passports = collectPassports(groupedInput);
+		List<Map<String, String>> passports = collectPassports(inputGrouped);
 		long validPassports = passports.stream()
 				.filter(passport -> passport.keySet().size() == 8 || passport.keySet().size() == 7 && !passport.containsKey("cid")).count();
 		System.out.println(validPassports); // 247
@@ -36,7 +36,7 @@ public class Day4 extends TheDayBase {
 
 	@Override
 	protected void puzzle2() {
-		List<Map<String, String>> passports = collectPassports(groupedInput);
+		List<Map<String, String>> passports = collectPassports(inputGrouped);
 		long validPassports = passports.stream()
 				.filter(passport -> passport.keySet().size() == 8 || passport.keySet().size() == 7 && !passport.containsKey("cid")) //
 				.filter(passport -> isInt(passport.get("byr"))) //
