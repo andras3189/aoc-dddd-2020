@@ -1,7 +1,5 @@
 package aoc;
 
-import static java.lang.String.format;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,9 +15,12 @@ public abstract class DayBase {
 
 	protected abstract void processInput();
 
-	protected abstract void puzzle2();
+	protected void reset() {
+	}
 
 	protected abstract void puzzle1();
+
+	protected abstract void puzzle2();
 
 	protected boolean isMultiLineInput() {
 		return false;
@@ -27,11 +28,13 @@ public abstract class DayBase {
 
 	protected final void run() {
 		for (String inputFilename : getInputFilenames()) {
-			System.out.println(format("### %s ###", inputFilename));
+			System.out.printf("### %s ###\n", inputFilename);
 			boolean notEmptyInput = readInput(getFolderName() + "/" + inputFilename);
 			if (notEmptyInput) {
 				processInput();
+				reset();
 				puzzle1();
+				reset();
 				puzzle2();
 			} else {
 				System.out.println("Input is empty");
@@ -66,7 +69,7 @@ public abstract class DayBase {
 		return packages[packages.length - 1];
 	}
 
-	private List<String> getInputFilenames() {
+	protected List<String> getInputFilenames() {
 		List<String> inputFiles = new ArrayList(Arrays.asList(getFolderName() + "-david", getFolderName(), "dummy"));
 		inputFiles.addAll(getAdditionalInputFileNames());
 		return inputFiles;
