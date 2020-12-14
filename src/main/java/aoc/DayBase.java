@@ -12,6 +12,8 @@ public abstract class DayBase {
 	protected List<String> input;
 	protected List<List<String>> inputGrouped;
 	protected List<Long> inputLong;
+	protected boolean onlyDummyInput;
+	protected boolean onlyRealInput;
 
 	protected abstract void processInput();
 
@@ -72,11 +74,24 @@ public abstract class DayBase {
 	protected List<String> getInputFilenames() {
 		List<String> inputFiles = new ArrayList(Arrays.asList(getFolderName() + "-david", getFolderName(), "dummy"));
 		inputFiles.addAll(getAdditionalInputFileNames());
+		if (onlyDummyInput) {
+			inputFiles.removeIf(fileName -> !fileName.contains("dummy"));
+		} else if (onlyRealInput) {
+			inputFiles.removeIf(fileName -> fileName.contains("dummy"));
+		}
 		return inputFiles;
 	}
 
 	protected List<String> getAdditionalInputFileNames() {
 		return Collections.emptyList();
+	}
+
+	protected void setOnlyDummyInput(boolean onlyDummyInput) {
+		this.onlyDummyInput = onlyDummyInput;
+	}
+
+	protected void setOnlyRealInput(boolean onlyRealInput) {
+		this.onlyRealInput = onlyRealInput;
 	}
 
 	protected boolean isInt(String str) {

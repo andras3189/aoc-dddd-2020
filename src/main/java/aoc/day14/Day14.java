@@ -14,18 +14,15 @@ import aoc.DayBase;
 public class Day14 extends DayBase {
 
 	public static void main(String[] args) {
-		new Day14().run();
+		Day14 day = new Day14();
+//		day.setOnlyDummyInput(true);
+		day.setOnlyRealInput(true);
+		day.run();
 	}
 
 	private final Map<Long, Long> memory = new HashMap<>();
 	private final Map<Integer, List<String>> maskMemory = new HashMap<>();
 	public String mask = "";
-
-	@Override
-	protected List<String> getInputFilenames() {
-//		return super.getInputFilenames();
-		return Arrays.asList("day14");
-	}
 
 	@Override
 	protected void processInput() {

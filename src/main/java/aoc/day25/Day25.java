@@ -1,12 +1,12 @@
-package aoc.day15;
+package aoc.day25;
 
 import aoc.DayBase;
 
-public class Day15 extends DayBase {
+public class Day25 extends DayBase {
 
 	public static void main(String[] args) {
-		Day15 day = new Day15();
-		day.setOnlyDummyInput(true);
+		Day25 day = new Day25();
+//		day.setOnlyDummyInput(true);
 //		day.setOnlyRealInput(true);
 		day.run();
 	}
